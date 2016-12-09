@@ -3,7 +3,7 @@
 // settings must be present and set appropriately for the language
 $lang['encoding']   = 'utf-8';
 $lang['direction']  = 'ltr';
-$lang['signup'] = "TEAM43 Slack Sign Up Form";
+$lang['signup'] = "*TEAMNAME HERE* Slack Sign Up Form";
 $lang['first_name'] = "First Name:  ";
 $lang['last_name'] = "Last Name:  ";
 $lang['email'] = "E-Mail:  ";

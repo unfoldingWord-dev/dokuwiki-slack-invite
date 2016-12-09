@@ -73,9 +73,9 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
             //<config>
             date_default_timezone_set('America/Phoenix');
             mb_internal_encoding("UTF-8");
-            $slackHostName='team43';
-            $slackAutoJoinChannels='C04PNHLCE'; //#general
-            $slackAuthToken='xoxp-4804598406-5082983720-6096638884-be9393';
+            $slackHostName='hostname';
+            $slackAutoJoinChannels='channelid'; 
+            $slackAuthToken='SlackToken';
             //</config>
             //
             // <invite to slack>
