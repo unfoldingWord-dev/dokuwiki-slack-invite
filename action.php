@@ -12,6 +12,7 @@ if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 require_once DOKU_PLUGIN . 'action.php';
 require_once(DOKU_INC . 'inc/media.php');
 require_once(DOKU_INC . 'inc/infoutils.php');
+require_once "recaptchalib.php";
 
 //define for debug
 define ('RUN_STATUS', 'SERVER');
