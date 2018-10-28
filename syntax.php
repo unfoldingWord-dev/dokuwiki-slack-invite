@@ -14,6 +14,7 @@ if(!defined('NL')) define('NL', "\n");
 if(!defined('DOKU_INC')) define('DOKU_INC', dirname(__FILE__) . '/../../');
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 require_once(DOKU_PLUGIN . 'syntax.php');
+require_once "recaptchalib.php";
 //require_once(DOKU_INC . 'inc/media.php');
 //require_once(DOKU_INC . 'inc/auth.php');
 
@@ -119,13 +120,17 @@ class syntax_plugin_slackinvite extends DokuWiki_Syntax_Plugin {
         $form->addElement(form_makeTextField('first_name', '', $this->getlang('first_name'), 'first__name'));
         $form->addElement(form_makeTextField('last_name', '', $this->getlang('last_name'), 'last__name'));
         $form->addElement(form_makeTextField('email', '', $this->getlang('email'), 'email'));
+        $captcha = $form->addElement(form_makeButton('Captcha'))
+        // Modify Captcha
+        $captcha->attr('class', 'g-recaptcha')
+        $captcha->attr('data-sitekey',"6LeoJXUUAAAAAETOhtrerzWMTDfFPQ1Ai6elcHQ4")
         $form->addElement(form_makeButton('submit', '', $lang['btn_signup']));
         $form->endFieldset();
 
         $html .= '<div class="dokuwiki"><p>' . NL;
         //$html .= '<h3>TEAM43 Slack Sign Up</h3>';
         $html .= $form->getForm();
-        $html .= '</p></div>' . NL;
+        $html .= "</p></div><script src='https://www.google.com/recaptcha/api.js'></script>" . NL;
         return $html;
     }
     
