@@ -90,7 +90,7 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
             if ($_POST["g-recaptcha-response"]) {
                 $response = $reCaptcha->verifyResponse(
                     $_SERVER["REMOTE_ADDR"],
-                    $INPUT->post->str('')
+                    $INPUT->post->str('g-recaptcha-response')
                 );
 
                 if ($response != null && $response->success) {
