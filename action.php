@@ -30,7 +30,7 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
             'date' => '2015-6-4',
             'name' => 'slackinvite plugin',
             'desc' => 'slackinvite plugin uploads a zip of usfm file to a given namespace then unzip it
-            			Basic syntax: {{slackinvite}}',
+                        Basic syntax: {{slackinvite}}',
             'url' => '',
         );
     }
@@ -67,6 +67,28 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             msg($this->getlang('email_err'), -1);
             $err=true;
+        }
+
+        $response = $_POST["g-recaptcha-response"];
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $data = array(
+            'secret' => 'YOUR_SECRET',
+            'response' => $_POST["g-recaptcha-response"]
+        );
+        $options = array(
+            'http' => array (
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        
+        $context  = stream_context_create($options);
+        $verify = file_get_contents($url, false, $context);
+        $captcha_success=json_decode($verify);
+        if ($captcha_success->success==false) {
+            $err=true;
+            msg ($this->getlang('recaptcha_err'),-1);
+        } else if ($captcha_success->success==true) {
         }
        
         if (!$err){

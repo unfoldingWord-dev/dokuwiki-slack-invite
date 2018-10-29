@@ -34,7 +34,7 @@ class syntax_plugin_slackinvite extends DokuWiki_Syntax_Plugin {
             'name' => 'slackinvite plugin',
             'desc' => 'slackinvite plugin a sign up form for users who want to '
                         .'join the team43 channel on slack ' 
-            		.'Basic syntax: {{slackinvite}}',
+                    .'Basic syntax: {{slackinvite}}',
             'url' => '',
         );
     }
@@ -109,6 +109,7 @@ class syntax_plugin_slackinvite extends DokuWiki_Syntax_Plugin {
         $params['class'] = 'slackinvite_plugin';
 
         // Modification of the default dw HTML upload form
+
         $form = new Doku_Form($params);
         $form->startFieldset($this->getlang('signup'));
         //$form->addElement(formSecurityToken());
@@ -119,13 +120,17 @@ class syntax_plugin_slackinvite extends DokuWiki_Syntax_Plugin {
         $form->addElement(form_makeTextField('first_name', '', $this->getlang('first_name'), 'first__name'));
         $form->addElement(form_makeTextField('last_name', '', $this->getlang('last_name'), 'last__name'));
         $form->addElement(form_makeTextField('email', '', $this->getlang('email'), 'email'));
+        $captcha = $form->addElement(form_makeButton('Captcha'))
+        // Modify Captcha
+        $captcha->attr('class', 'g-recaptcha')
+        $captcha->attr('data-sitekey',"YOUR CAPTCHA TOKEN HERE")
         $form->addElement(form_makeButton('submit', '', $lang['btn_signup']));
         $form->endFieldset();
 
         $html .= '<div class="dokuwiki"><p>' . NL;
         //$html .= '<h3>TEAM43 Slack Sign Up</h3>';
         $html .= $form->getForm();
-        $html .= '</p></div>' . NL;
+        $html .= "</p></div><script src='https://www.google.com/recaptcha/api.js'></script>" . NL;
         return $html;
     }
     
