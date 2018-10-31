@@ -120,10 +120,10 @@ class syntax_plugin_slackinvite extends DokuWiki_Syntax_Plugin {
         $form->addElement(form_makeTextField('first_name', '', $this->getlang('first_name'), 'first__name'));
         $form->addElement(form_makeTextField('last_name', '', $this->getlang('last_name'), 'last__name'));
         $form->addElement(form_makeTextField('email', '', $this->getlang('email'), 'email'));
-        $captcha = $form->addElement(form_makeButton('Captcha'))
+        $captcha = $form->addElement(form_makeButton('Captcha', ''));
         // Modify Captcha
-        $captcha->attr('class', 'g-recaptcha')
-        $captcha->attr('data-sitekey',"6LeoJXUUAAAAAETOhtrerzWMTDfFPQ1Ai6elcHQ4")
+        $captcha->attr('class', 'g-recaptcha');
+        $captcha->attr('data-sitekey',"6LeoJXUUAAAAAETOhtrerzWMTDfFPQ1Ai6elcHQ4");
         $form->addElement(form_makeButton('submit', '', $lang['btn_signup']));
         $form->endFieldset();
 
