@@ -14,3 +14,4 @@ $lang['invite_success'] = '%s %s Invited successfully';
 $lang['invite_failed'] = '%s %s Invite failed.  Error:  %s';
 $lang['success']='Invitation Sent';
 $lang['failed']='Invitation Failed';
+$lang['captcha_fail'] = 'Captcha Failed';

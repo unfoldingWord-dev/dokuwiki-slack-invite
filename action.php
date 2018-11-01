@@ -12,6 +12,7 @@ if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 require_once DOKU_PLUGIN . 'action.php';
 require_once(DOKU_INC . 'inc/media.php');
 require_once(DOKU_INC . 'inc/infoutils.php');
+require_once "recaptchalib.php";
 
 //define for debug
 define ('RUN_STATUS', 'SERVER');
@@ -51,6 +52,7 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
         global $ACT;
         
         $err=false;
+        $recaptchaStatus = false;
         //check calling source
         $source = trim($INPUT->post->str('source')); 
         if ($source !="slackinvite") return; //not called from slackinvite plugin
@@ -76,8 +78,26 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
             $slackHostName='hostname';
             $slackAutoJoinChannels='channelid'; 
             $slackAuthToken='SlackToken';
+            // Recaptcha
+            $secret = "6LcePAATAAAAABjXaTsy7gwcbnbaF5XgJKwjSNwT";
+            // empty response
+            $response = null;
+            // check secret key
+            $reCaptcha = new ReCaptcha($secret);
             //</config>
             //
+
+            if ($_POST["g-recaptcha-response"]) {
+                $response = $reCaptcha->verifyResponse(
+                    $_SERVER["REMOTE_ADDR"],
+                    $INPUT->post->str('g-recaptcha-response')
+                );
+
+                if ($response != null && $response->success) {
+                    $recaptchaStatus = true // Recaptcha has passed!
+                }
+            }
+
             // <invite to slack>
                 $slackInviteUrl='https://'.$slackHostName.'.slack.com/api/users.admin.invite?t='.time();
 
@@ -86,7 +106,7 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
                 $user['lname']=$ln;
 
                 
-                
+                if(recaptchaStatus){
                     $teststr= date('c').'- '."\"".$user['fname']."\" <".$user['email']."> - Inviting to ".$slackHostName." Slack\n";
                     $this->showDebug($teststr);
                     // <invite>
@@ -144,7 +164,11 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
 
                         // </invite>
                        
-                
+                    }
+                    else{
+                        $txt = sprintf($this->getlang('captcha_failed'));
+                        msg($txt, -1);
+                    }
         // </invite to slack>
         }
         
