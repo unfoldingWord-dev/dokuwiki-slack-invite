@@ -51,8 +51,8 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
         global $INPUT;
         global $ACT;
         
-        $err=false;
-        $recaptchaStatus = false;
+        $err=false;//no error initially
+        $recaptchaStatus = false;//by default the recaptcha is set inactive
         //check calling source
         $source = trim($INPUT->post->str('source')); 
         if ($source !="slackinvite") return; //not called from slackinvite plugin
@@ -86,7 +86,7 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
             $reCaptcha = new ReCaptcha($secret);
             //</config>
             //
-
+            //checking the response of the user.
             if ($_POST["g-recaptcha-response"]) {
                 $response = $reCaptcha->verifyResponse(
                     $_SERVER["REMOTE_ADDR"],
@@ -165,6 +165,7 @@ class action_plugin_slackinvite extends DokuWiki_Action_Plugin {
                         // </invite>
                        
                     }
+                    //if recaptcha status remains false
                     else{
                         $txt = sprintf($this->getlang('captcha_failed'));
                         msg($txt, -1);
